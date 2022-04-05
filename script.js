@@ -27,21 +27,46 @@ var quizQuestions = [
 ];
 
 
-var quizButton = document.getElementById("quiz-button");
-var quizBox = document.querySelector("#quiz-container");
-var timer = document.querySelector("#timer");
-var countdownTimer = quizQuestions.lenth * 12;
+var quizButton = document.getElementById("quiz-btn");
+var quizBox = document.querySelector("#quiz-box");
+var time = document.querySelector("#time");
+var timerCountdown = quizQuestions.length * 12;
 var questionIndex = 0;
+var timerInterval;
+
+function endQuiz(){
+    quizBox.innerHTML = "Quiz Complete!";
+    scoreKeeper();
+    clearInterval(timerInterval);
+    $("p").empty();
+    
+    
+}
+
+function startTime(){
+    timerCountdown--;
+    time.textContent = timerCountdown;
+}
+
+function timerZero(){
+    if (timerCountdown <= 0)
+    return endQuiz();
+
+}
+
 
 
 function formQuestion(){
+    if (questionIndex=== quizQuestions.length){
+        endQuiz();
+    }
     var questionEl = document.createElement("p");
     questionEl.textContent = quizQuestions[questionIndex].question;
     var possibleAnswers = document.createElement("ol");
     
     for (var i = 0; i < quizQuestions[questionIndex].answers.length; i++){
         var currentAnswer = document.createElement("li");
-        currentAnswer.textContent =quizQuestions[questionIndex].correctAnswer[i];
+        currentAnswer.textContent = quizQuestions[questionIndex].answers[i];
         possibleAnswers.append(currentAnswer);
     }
     quizBox.append(questionEl);
@@ -51,23 +76,33 @@ function formQuestion(){
 }
 function answerCheck(event) {
     var currentAnswer = event.target.textContent;
-    // console.log(currentAnswer);
-    if (currentAnswer === quizQuestions[questionIndex].correctAnswer){
-        var rightAnswer = document.createElement("p");
-        rightAnswer.textContent = "You are right";
-        timer.append(rightAnswer);
+    var rightAnswer = document.createElement("p");
 
+    if (currentAnswer === quizQuestions[questionIndex].correctAnswer) {
+        rightAnswer.textContent = "You are right!";
+        time.append(rightAnswer);
+    } else{
+        rightAnswer.textContent = "Wrong!";
+        timerCountdown -=5;
+        time.append(rightAnswer);
     }
-    currentQuestion++;
+    quizBox.innerHTML = "";
+    questionIndex++;
+    formQuestion();
+    
 }
     
 function beginQuiz(){
+    quizButton.classList.add("hide");
     formQuestion();
-    timer.textContent = countdownTimer;
+    timerInterval = setInterval(startTime,1000);
+    
+}
+function scoreKeeper(){
+    localStorage.setItem("Score",timerCountdown);
 }
 
-
-
+timerZero();
 
 quizButton.addEventListener("click", beginQuiz);
 quizBox.addEventListener("click", answerCheck);
