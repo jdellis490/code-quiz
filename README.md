@@ -9,5 +9,5 @@ This project was built to further my javascript knowledge and providing me a sma
 To use, simply copy and paste the github url into the browser https://jdellis490.github.io/Code-Quiz-HW4/
 
 Screenshot: 
-![ScreenShot](/assets/CodeQuiz Screenshot.png)
+![alt text](/assets/images/CodeQuiz Screenshot.png)
 
