@@ -43,7 +43,7 @@ function endQuiz(){
     if (timerCountdown >= 0) {
         var endScore = timerCountdown;
         var createP = document.createElement("p");
-        createP.textContent = "This is your final score is: " + endScore;
+        createP.textContent = "Your score is saved."
 
         quizBox.appendChild(createP);
     }
@@ -76,10 +76,9 @@ function endQuiz(){
                 score: endScore,
             }
             console.log(finalScores);
+            localStorage.setItem("Initials", userInitials);
             
-           
-
-            var createHighscore = document.createElement("h3");
+           var createHighscore = document.createElement("h3");
             createHighscore.textContent = "Initials "+ finalScores.initials+ " " + "Score: " + finalScores.score
             quizBox.append(createHighscore);
         
@@ -146,7 +145,8 @@ function beginQuiz(){
     
 }
 function scoreKeeper(){
-    localStorage.setItem("Score",timerCountdown);
+    localStorage.setItem("Score", timerCountdown);
+    
 }
 
 
